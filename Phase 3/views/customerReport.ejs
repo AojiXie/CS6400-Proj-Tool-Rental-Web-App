@@ -1,0 +1,65 @@
+
+<style>
+
+
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+
+
+</style>
+
+<h1>Customer Report</h1>
+<p>The list of customers and reservations with tools for the last month</p>
+
+<table  cellspacing="0" width="100%" >
+    <thead>
+    <tr>
+        <th>Customer ID</th>
+        <th>View Profile</th>
+        <th>First Name</th>
+        <th>Middle Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Total# Reservations</th>
+        <th>Total# Tools Rented</th>
+
+    </tr>
+    </thead>
+    <tbody >
+    <% results.forEach(function (results) {  %>
+    <tr>
+        <td><%= results.CustomerID%></td>
+
+        <td><a href="/ViewProfile/<%= results.CustomerID%>"
+               onclick="window.open('/ViewProfile/<%= results.CustomerID%>',
+                       'Customer Profile',
+                       'width=300,height=250');
+                       return false;">
+                show profile</a>
+        </td>
+        <td><%= results.first_name%></td>
+        <td><%= results.last_name%></td>
+        <td><%= results.email%></td>
+        <td><%= results.Phone%></td>
+        <td><%= results.total_reservation %></td>
+        <td><%= results.total_tools_rented%></td>
+    </tr>
+   <% }); %>
+    </tbody>
+</table>
+<button><a href="/_report">Back TO Report Menu</a></button>
+<a href="/customer_report">Reload Results</a>

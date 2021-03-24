@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+    </head>
+
+    <body>
+    <script>
+
+        $(document).ready(function() {
+
+            var calculate_table = localStorage.getItem('_table');
+            //calculate_table = toArray(calculate_table);
+            //alert (calculate_table)
+            //localStorage.removeItem('_table')
+            calculate_table = JSON.parse(calculate_table);
+
+            var start_date = localStorage.getItem('_start_date');
+            //localStorage.removeItem('_start_date');
+            start_date = JSON.parse(start_date);
+            //start_date = start_date.toString();
+            var end_date = localStorage.getItem('_end_date');
+            end_date = JSON.parse(end_date);
+            //localStorage.removeItem('_end_date')
+            //alert(start_date)
+
+
+            $.each(calculate_table, function (index, value) {
+                $('#selected_tool').find('#tool').append('<tr>' + '<td><input value = "' + value.tool_id + ' " type ="hidden" name = "tool_id" id="' + value.tool_id + ' ">' + value.tool_id + '</td>' +
+                    '<td>' + value.short_description + '</td>' + '<td id="' + value.rental_price + ' ">' + value.rental_price + '</td>'
+                    + '<td id="' + value.deposit_price + ' ">' + value.deposit_price + '</td>'
+                    + '</tr>');
+
+            });
+            var total_rental = 0;
+            var total_deposit = 0;
+
+
+            var a    = new Date(start_date);
+            var b    = new Date(end_date); // Or any other JS date
+            var _MS_PER_DAY = 1000 * 60 * 60 * 24;
+            var remainingDays    = dateDiffInDays(a, b);
+
+            if (remainingDays > 0 ) { // Apply you login on remaining days
+            }
+
+
+            function dateDiffInDays(a, b) {
+                // Discard the time and time-zone information.
+                var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+                var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+
+                return Math.floor((utc2 - utc1)/ _MS_PER_DAY);
+            }
+
+            var difference = dateDiffInDays(a,b);
+
+            $.each(calculate_table, function () {
+                total_rental += parseInt(this.rental_price);
+                total_deposit += parseInt(this.deposit_price);
+
+            });
+            total_rental = difference*total_rental;
+            total_deposit = difference * total_deposit;
+
+            $('#summary').append('<li> ' + "Reservation Dates:" + '<p1><input value = "' + start_date + ' " type ="hidden" id = "start_date" name ="start_date" >' + start_date + '</p1>'
+                + '-' + '<p1><input value = "' + end_date + ' " type ="hidden" id = "end_date" name = "end_date">' + end_date + '</p1></li>'
+                + '<li>' + "Total Deposit Price:" + total_rental + '</li>' + '<li>' + "Total Deposit Price:" + total_deposit + '</li>');
+            $('#total_price').append('<tr>' + '<td>' + "Total" +'</td>' +
+                '<td >' + " " + '</td>' + '<td id="total_rental ">' + total_rental + '</td>'
+                + '<td id="total_deposit ">' + total_deposit + '</td>'
+                + '</tr>');
+        });
+
+
+    </script>
+
+         <form id = "tool_order" name = "tool_order" action = "/reservation_summary" method="post">
+             <h1>Reservation Summary</h1>
+                <div id = 'summary'>
+                </div>
+                <h2>Tools</h2>
+                    <table id="selected_tool" class="display" cellspacing="0" width="100%" >
+                        <thead>
+                            <th>Tool ID</th>
+                            <th>Description</th>
+                            <th>Rental Price</th>
+                            <th>Deposit Price</th>
+                        </thead>
+                            <tbody id = 'tool'>
+
+                           <tbody>
+                           <tfoot id = 'total_price'>
+                            </tfoot>
+                    </table>
+                     <button id = "submit"  > Submit </button>
+                     <button id = "reset" > Reset </button>
+
+
+             <script>
+                 var tableToObj = function (table) {
+                     var tableArr = [];
+                     for ( var i = 1; i < table.rows.length; i++ ) {
+                         tableArr.push({
+                             tool_id: table.rows[i].cells[0].innerHTML,
+                             short_description: table.rows[i].cells[1].innerHTML,
+                             rental_price: table.rows[i].cells[2].innerHTML,
+                             deposit_price: table.rows[i].cells[3].innerHTML
+                         });
+                     }
+                     return tableArr;
+
+                 }
+                 $('#submit').on('click',function () {
+                     var table_ = tableToObj(document.getElementById('selected_tool'));
+                     table_ = JSON.stringify(table_);
+                     var start_date = JSON.stringify(document.getElementById("start_date").value);
+                     var end_date = JSON.stringify(document.getElementById("end_date").value);
+
+
+                     localStorage.setItem('_table', table_);
+                     localStorage.setItem('_start_date', start_date);
+                     localStorage.setItem('_end_date', end_date)
+
+                     $("#tool_order").submit();
+
+                 });
+                 $('#reset').on('click',function () {
+                     window.open('/makeReservation')
+
+                 })
+        </script>
+      </form>
+
+    </body>
+
+</html>
+
+

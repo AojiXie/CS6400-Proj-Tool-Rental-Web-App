@@ -1,0 +1,32 @@
+<label for="toolid">Tool ID:</label>
+<p id="toolid"><%=results[0].ToolID%></p>
+<label for="tooltype">Tool Type:</label>
+<p id="tooltype"><%=results[0].type%></p>
+<label for="shortDes">Short Description:</label>
+<p id="shortDes">
+    <%=results[0].power_source%>
+    <%=results[0].sub_option%>
+    <%=results[0].sub_type%>
+</p>
+<label for="fullDes">Full Description:</label>
+<p id="fullDes"><%=results[0].fullDes%></p>
+<label for="deposit">Deposit Price:</label>
+<p id="deposit"><%=results[0].deposit_price%></p>
+<label for="rental">Rental Price:</label>
+<p id="rental"><%=results[0].rental_price%></p>
+<% if (results[0].AccessoryName) {%>
+<label for="accessory">Accessory:</label>
+<ul>
+    <% for (var i = 0; i < results.length; i++) {%>
+    <% if (results[i].AccessoryName.toLowerCase() === 'battery') {%>
+    <p>
+        <%= i+1 %>. <%=results[i].volt_rating%> Volt <%=results[i].amp_rating%> Amp <%=results[i].battery_type%> batteries
+    </p>
+    <%} else {%>
+    <p>
+        <%= i+1 %>. <%=results[i].AccessoryName%>
+    </p>
+    <%}%>
+    <%}%>
+</ul>
+<%}%>

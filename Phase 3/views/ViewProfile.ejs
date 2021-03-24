@@ -1,0 +1,53 @@
+<h1>Customer Info</h1>
+
+
+<p>E-mail: <%= result1[0].email%></p>
+<p>Full Name: <%= result1[0].full_name%></p>
+<p><%= result1[0].phone_type%>: <%= result1[0].phone%></p>
+<%for (var i = 0; i < result2.length; i++) {%>
+<p><%= result2[i].phone_type%>: <%= result2[i].phone%></p>
+<%}%>
+<p>Address: <%= result1[0].address%></p>
+
+<hr>
+
+<h1>Reservations</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Reservation ID</th>
+        <th>Tools</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Pick-up Clerk</th>
+        <th>Drop-off Clerk</th>
+        <th>Number of Days</th>
+        <th>Total Deposit Price</th>
+        <th>Total Rental Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% for (var i = 0; i < result3.length; i++) { %>
+    <tr>
+        <td><%=result3[i].reservationID%></td>
+        <td>
+            <ul>
+                <%for (var j = 0; j < result4.length; j++) {%>
+                <% if (result3[i].reservationID === result4[j].reservationID){%>
+                <li><%=result4[j].shortDes%></li>
+                <%}%>
+                <%}%>
+            </ul>
+        </td>
+        <td><%= result3[i].start_date%></td>
+        <td><%= result3[i].end_date%></td>
+        <td><%=result3[i].pick_clerk%></td>
+        <td><%=result3[i].drop_clerk%></td>
+        <td><%=result3[i].number_of_days%></td>
+        <td><%=result3[i].total_deposit%></td>
+        <td><%=result3[i].total_rental%></td>
+    </tr>
+    <%}%>
+    </tbody>
+</table>

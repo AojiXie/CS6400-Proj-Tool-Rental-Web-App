@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<body>
+
+<h1>Dropoff Reservation</h1>
+
+<hr>
+<table id = 'reservations'>
+    <thead>
+    <tr>
+        <th>Reservation ID</th>
+        <th>Customer ID</th>
+        <th>Username</th>
+        <th>Customer Name</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Total Deposit Price</th>
+        <th>Total Rental Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% results.forEach(function (results) {   %>
+    <tr>
+        <td><%=results.reservationID%></td>
+        <td><%=results.CustomerID%></td>
+        <td><%=results.username%></td>
+        <td><%=results.customer_name%></td>
+        <td><%=results.start_date%></td>
+        <td><%=results.end_date%></td>
+        <td><%=results.total_deposit%></td>
+        <td><%=results.total_rental%></td>
+    </tr>
+    <% }) %>
+    </tbody>
+</table>
+
+<form id = 'drop_res_id' action="/dropConfirm" method="POST" >
+    <input type="number" name = 'reservationID' id ='reservationID' required>
+
+</form>
+<button id="dropoff">Drop Off</button>
+
+<script>
+
+    $('#dropoff').on('click',function () {
+        var id = document.getElementById("reservationID").value.toString();
+        var ttl = tableToObj(document.getElementById('reservations'));
+        var l = ttl.indexOf(id)
+        if(id.length === 0){
+            alert("please enter the reservation id")
+
+        }else if (id.length !==  0 && l === -1){
+            alert("reservation id not exist")
+
+        }else{
+            $('#drop_res_id').submit();
+
+        }
+
+    })
+
+
+
+    var tableToObj = function (table) {
+        var tableArr = [];
+        for ( var i = 1; i < table.rows.length; i++ ) {
+            tableArr.push(
+                table.rows[i].cells[0].innerHTML.toString()
+
+            );
+        }
+        return tableArr;
+    }
+
+
+
+
+
+</script>
+
+</body>
+</html>

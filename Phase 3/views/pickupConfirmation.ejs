@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+</head>
+
+
+
+
+
+<body>
+
+
+
+
+
+
+<script>
+    $(document).ready(function() {
+        var reservation = localStorage.getItem('_table');
+        reservation = JSON.parse(reservation);
+
+        var reservation_id = reservation[0].reservationID;
+        var customer_name = reservation[0].customer_name;
+        var total_deposit = reservation[0].total_deposit;
+        var total_rental = reservation[0].total_rental;
+
+        $('#summary').append('<li> ' + "Reservation ID:" + '<p1><input value = "' + reservation_id + ' " type ="hidden" id = "reservation_id" name ="reservation_id" >' + reservation_id + '</p1></li>'
+            + '<li>' + "Customer Name:" + customer_name + '</li>' + '<li>' + "Total Deposit Price:" +total_deposit + '</li>'  + '<li>' + "Total Rental Price:" + total_rental + '</li>');
+
+    });
+</script>
+<form id = "pick_up" action = "/rentalContract" method = "POST">
+<h1> Pickup Reservation</h1>
+<div id = "summary">
+
+</div>
+
+
+    <div id = 'radio'>
+        <p1> Credit Card </p1>
+
+        <b>Existing</b><input type="radio" id = "existing" value ="existing" name="card" checked>
+        <b>New</b><input type="radio" id ="new" value ="new" name="card">
+
+    </div>
+
+
+
+    <div id = "credit_card" >
+        <p1>Update Credit Card Information</p1>
+        <table>
+            <tbody>
+            <tr>
+                <td colspan="2"><label>Name on the card</label>
+                    <input type="text" name = "name_on_card" maxlength="50" placeholder="Name on Credit Card" class="form-control" autofocus required>
+                </td>
+                <td colspan="2"><label>Credit Card Number</label>
+                    <input type="text" name = "card_number" pattern = "\d{16}" placeholder="16-digits card number" class="form-control" autofocus required>
+                </td>
+            </tr>
+
+            <tr><td><br/></td></tr>
+            <tr>
+                <td colspan="2"><label>Expiration Month</label>
+                    <select name="month" class="form-control" required>
+                        <option value="" disabled selected>Expiration Month</option>
+                        <option value='01'>January</option>
+                        <option value="02">February</option>
+                        <option value='03'>March</option>
+                        <option value='04'>April</option>
+                        <option value='05'>May</option>
+                        <option value='06'>June</option>
+                        <option value='07'>July</option>
+                        <option value='08'>August</option>
+                        <option value='09'>September</option>
+                        <option value='10'>October</option>
+                        <option value='11'>November</option>
+                        <option value='12'>December</option>
+                    </select>
+                </td>
+                <td colspan="2"><label>Expiration Year</label>
+                    <select name="year" class="form-control" required>
+                        <option value="" disabled selected>Expiration Year</option>
+                        <%
+                        for ( var i = new Date().getFullYear(); i <= new Date().getFullYear()+5; i++) {
+                        %><option value = "<%=i %>"><%= i%></option><%
+                        }
+                        %>
+                    </select>
+                </td>
+                <td><label>CVC Number</label>
+                    <input type="text" name="cvc_3_digit_number" maxlength="3" placeholder="CVC" class="form-control" required>
+                </td>
+            </tr>
+            <tr><td><br/></td></tr>
+
+            </tbody>
+        </table>
+
+    </div>
+    <button id = "confirm_pick_up" > Confirm Pickup</button>
+</form>
+<script>
+    $(document).ready(function() {
+
+        $('#credit_card').find('input, textarea, button, select').attr('disabled', 'disabled');
+
+
+        $('#existing').click(function()
+        {
+            $('#credit_card').find('input, textarea, button, select').attr('disabled', 'disabled');
+        });
+
+        $('#new').click(function()
+        {
+            $('#credit_card').find('input, textarea, button, select').removeAttr("disabled");
+        });
+        $('#confirm_pick_up').on('click',function () {
+            $('pick_up').submit();
+
+        })
+
+
+    });
+
+
+</script>
+</body>
+</html>

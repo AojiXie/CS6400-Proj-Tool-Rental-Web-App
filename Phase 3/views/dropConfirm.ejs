@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+
+<body>
+
+
+<h1>Drop off Reservation</h1>
+<h2>Reservation Details</h2>
+<form id = 'dropoffRes' method = 'POST' action ="/dropoffDetails" >
+    <li>Reservation ID:<input name = 'reservationID' type="hidden" value="<%= results[0].reservationID %>"><%= results[0].reservationID %> </li>
+    <li>Customer Name:<%= results[0].customer_name %> </li>
+
+    <%
+    var total_rental =0;
+    var total_deposit = 0;
+    results.forEach(function (results) {
+        total_rental += results.rental_price;
+        total_deposit += results.deposit_price;
+
+    %>
+
+
+
+    <li>Total Deposit:<%= total_deposit %> </li>
+    <li>Total Rental Price:<%=  total_rental  %> </li>
+    <li>Total Due:<%= total_deposit - total_rental  %> </li>
+</form>
+
+
+<table id="available_tool" class="display" cellspacing="0" width="100%"  >
+    <thead>
+    <th>Tool ID</th>
+    <th>Tool Name</th>
+    <th>Deposit Price</th>
+    <th>Rental Price</th>
+
+    </thead>
+    <tbody>
+
+
+
+    <tr>
+        <td> <%=results.ToolID %></td>
+        <td><a href="/tool/<%= results.ToolID%>/<%= results.sub_type%>" onclick="window.open('/tool/<%= results.ToolID%>/<%= results.sub_type%>',
+                    'Tool Detail',
+                    'width=300,height=250');
+                    return false;">
+                <%= results.shortDes%></a>
+        </td>
+        <td>  <%=results.deposit_price%> </td>
+        <td> <%=results.rental_price%> </td>
+
+    </tr>
+    </tbody>
+
+    <tfoot>
+    <tr>
+        <td>Total </td>
+        <td>      </td>
+        <td> <%= total_deposit %> </td>
+        <td> <%= total_rental%>  </td>
+    </tr>
+
+    </tfoot>
+    <% }); %>
+
+</table>
+
+
+
+
+
+
+<button id = 'dropoff'>Drop off </button>
+<script>
+    $('#dropoff').on('click',function () {
+        $('#dropoffRes').submit();
+
+    })
+</script>
+
+
+
+</body>
+</html>

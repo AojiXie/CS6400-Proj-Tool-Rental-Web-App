@@ -1,0 +1,74 @@
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+</head>
+<body>
+<script>
+    // load data to page
+    $(document).ready(function() {
+        var calculate_table = localStorage.getItem('_table');
+        //calculate_table = toArray(calculate_table);
+        //alert (calculate_table)
+        //localStorage.removeItem('_table')
+        calculate_table = JSON.parse(calculate_table);
+        //alert (calculate_table);
+        var start_date = localStorage.getItem('_start_date');
+        //localStorage.removeItem('_start_date');
+        start_date = JSON.parse(start_date);
+        //start_date = start_date.toString();
+        var end_date = localStorage.getItem('_end_date');
+        //localStorage.removeItem('_end_date')
+        end_date = JSON.parse(end_date);
+        //alert(start_date)
+
+        // assign to table
+        $.each(calculate_table, function (index, value) {
+            $('#selected_tool').find('#tool').append('<tr>' + '<td>' + value.tool_id + '</td>' +
+                '<td>' + value.short_description + '</td>' + '<td id="' + value.rental_price + ' ">' + value.rental_price + '</td>'
+                + '<td id="' + value.deposit_price + ' ">' + value.deposit_price + '</td>'
+                + '</tr>');
+
+        });
+        var total_rental = 0;
+        var total_deposit = 0;
+        $.each(calculate_table, function () {
+            total_rental += parseInt(this.rental_price);
+
+            total_deposit += parseInt(this.deposit_price);
+
+        });
+
+        $('#summary').append('<li> ' + "Reservation Dates:" + '<p1 id = "start_date" name ="start_date" >' + start_date + '</p1>'
+            + '-' + '<p1 id = "end_date" name = "end_date">' + end_date + '</p1></li>'
+            + '<li>' + "Total Deposit Price:" + total_rental/2 + '</li>' + '<li>' + "Total Deposit Price:" + total_deposit/2 + '</li>');
+
+    });
+
+
+</script>
+<h1>Reservation Confirmation</h1>
+<form name = "tool_order">
+
+    <div> <li> Reservation ID <p1><%= reservation_id %></p1> </li></div>
+    <div id = 'summary'>
+    </div>
+
+
+
+
+    <h2>Tools</h2>
+    <table id="selected_tool" class="display" cellspacing="0" width="100%" >
+        <thead>
+            <th>Tool ID</th>
+            <th>Description</th>
+            <th>Rental Price</th>
+            <th>Deposit Price</th>
+        </thead>
+
+        <tbody id = 'tool'>
+
+        <tbody>
+
+    </table>
+</form>

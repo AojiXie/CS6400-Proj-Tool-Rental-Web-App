@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel='stylesheet' href='/stylesheets/bootstrap.css' />
+    <title>Registration</title>
+</head>
+
+<body>
+<div class="container">
+    <form class="form-horizontal" role="form" action="/register" method="POST" onsubmit="return passwordCheck()">
+        <h1>Customer Registration Form</h1>
+        <table>
+            <tbody>
+            <tr>
+                <td><label>First Name</label><input type="text" name = "first_name" maxlength="50" placeholder="First Name" class="form-control" required></td>
+                <td><label>Middle Name</label><input type="text" name = "middle_name" maxlength="50" placeholder="Middle Name" class="form-control"></td>
+                <td><label>Last Name</label><input type="text" name="last_name" maxlength="50" placeholder="Last Name" class="form-control" required></td>
+            </tr>
+            <tr><td><br/></td></tr>
+            <tr>
+                <td><label>Home Phone</label><input type="text" id = "home_phone" name = "home_phone" placeholder="Home Phone" class="form-control" pattern="\d{3}-\d{7}(x\d{1,4})?"></td>
+                <td><label>Work Phone</label><input type="text" id = "work_phone" name = "work_phone" placeholder="Work Phone" class="form-control" pattern="\d{3}-\d{7}(x\d{1,4})?"></td>
+                <td><label>Cell Phone</label><input type="text" id = "cell_phone" name = "cell_phone" placeholder="Cell Phone" class="form-control" pattern="\d{3}-\d{7}(x\d{1,4})?"></td>
+            </tr>
+            <tr><td colspan="3">Phone number in format 111-1111111x1111. Extension x1111 is optional</td></tr>
+            <tr><td><br/></td></tr>
+            <tr>
+                <td class="item-label"><b>Primary Phone</b></td>
+                <td><input type="radio" id="home" value="home" name="primary" required><b>Home Phone</b></td>
+                <td><input type="radio" id="work" value="work" name="primary" checked><b>Work Phone</b></td>
+                <td><input type="radio" id="cell" value="cell" name="primary"><b>Cell Phone</b></td>
+            </tr>
+            <tr><td><br/></td></tr>
+            <tr>
+                <td><label>Username</label><input type="text" name="username" maxlength="50" placeholder="Username" class="form-control" required></td>
+                <td><label>Email</label><input type="email" name="email" maxlength="50" placeholder="Email Address" class="form-control" required></td>
+            </tr>
+            <tr><td><br/></td></tr>
+            <tr>
+                <td><label>Password</label><input type="password" id="password" name="password" maxlength="50" placeholder="Password" class="form-control" required></td>
+                <td onkeyup="check_password_match()"><label>Re-type Password</label><input type="password" id="retype_password" name="retype_password" maxlength="50" placeholder="Re-type Password" class="form-control" required></td>
+                <td><label id='message'></label></td>
+            </tr>
+
+            <tr><td><br/></td></tr>
+            <tr>
+                <td colspan="3"><label>Street Address</label><input type="text" name="street" maxlength="50" placeholder="Street Address" class="form-control" required></td>
+            </tr>
+            <tr><td><br/></td></tr>
+            <tr>
+                <td><label>City</label><input type="text" name="city" maxlength="50" placeholder="City" class="form-control" required></td>
+                <td>
+                    <label>State</label>
+                    <select name="state" class="form-control" required>
+                        <option value="" disabled selected>Select a state</option>
+                        <option value="AL">Alabama</option>
+                        <option value="AK">Alaska</option>
+                        <option value="AZ">Arizona</option>
+                        <option value="AR">Arkansas</option>
+                        <option value="CA">California</option>
+                        <option value="CO">Colorado</option>
+                        <option value="CT">Connecticut</option>
+                        <option value="DE">Delaware</option>
+                        <option value="DC">District Of Columbia</option>
+                        <option value="FL">Florida</option>
+                        <option value="GA">Georgia</option>
+                        <option value="HI">Hawaii</option>
+                        <option value="ID">Idaho</option>
+                        <option value="IL">Illinois</option>
+                        <option value="IN">Indiana</option>
+                        <option value="IA">Iowa</option>
+                        <option value="KS">Kansas</option>
+                        <option value="KY">Kentucky</option>
+                        <option value="LA">Louisiana</option>
+                        <option value="ME">Maine</option>
+                        <option value="MD">Maryland</option>
+                        <option value="MA">Massachusetts</option>
+                        <option value="MI">Michigan</option>
+                        <option value="MN">Minnesota</option>
+                        <option value="MS">Mississippi</option>
+                        <option value="MO">Missouri</option>
+                        <option value="MT">Montana</option>
+                        <option value="NE">Nebraska</option>
+                        <option value="NV">Nevada</option>
+                        <option value="NH">New Hampshire</option>
+                        <option value="NJ">New Jersey</option>
+                        <option value="NM">New Mexico</option>
+                        <option value="NY">New York</option>
+                        <option value="NC">North Carolina</option>
+                        <option value="ND">North Dakota</option>
+                        <option value="OH">Ohio</option>
+                        <option value="OK">Oklahoma</option>
+                        <option value="OR">Oregon</option>
+                        <option value="PA">Pennsylvania</option>
+                        <option value="RI">Rhode Island</option>
+                        <option value="SC">South Carolina</option>
+                        <option value="SD">South Dakota</option>
+                        <option value="TN">Tennessee</option>
+                        <option value="TX">Texas</option>
+                        <option value="UT">Utah</option>
+                        <option value="VT">Vermont</option>
+                        <option value="VA">Virginia</option>
+                        <option value="WA">Washington</option>
+                        <option value="WV">West Virginia</option>
+                        <option value="WI">Wisconsin</option>
+                        <option value="WY">Wyoming</option>
+                    </select>
+                </td>
+
+                <td>
+                    <label>Zip Code</label>
+                    <input type="text" name="zip_code" pattern = "\d{5}(-\d{4})?" placeholder="NNNNN-NNNN" class="form-control" required>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+        <h3>Credit Card</h3>
+        <table>
+            <tbody>
+            <tr>
+                <td colspan="2"><label>Name on the card</label>
+                    <input type="text" name = "name_on_card" maxlength="50" placeholder="Name on Credit Card" class="form-control" autofocus required>
+                </td>
+                <td colspan="2"><label>Credit Card Number</label>
+                    <input type="text" name = "card_number" pattern = "\d{16}" placeholder="16-digits card number" class="form-control" autofocus required>
+                </td>
+            </tr>
+            <tr><td><br/></td></tr>
+            <tr>
+                <td colspan="2"><label>Expiration Month</label>
+                    <select name="month" class="form-control" required>
+                        <option value="" disabled selected>Expiration Month</option>
+                        <option value='01'>January</option>
+                        <option value="02">February</option>
+                        <option value='03'>March</option>
+                        <option value='04'>April</option>
+                        <option value='05'>May</option>
+                        <option value='06'>June</option>
+                        <option value='07'>July</option>
+                        <option value='08'>August</option>
+                        <option value='09'>September</option>
+                        <option value='10'>October</option>
+                        <option value='11'>November</option>
+                        <option value='12'>December</option>
+                    </select>
+                </td>
+                <td colspan="2"><label>Expiration Year</label>
+                    <select name="year" class="form-control" required>
+                        <option value="" disabled selected>Expiration Year</option>
+                        <%
+                        for ( var i = new Date().getFullYear(); i <= new Date().getFullYear()+5; i++) {
+                        %><option value = "<%=i %>"><%= i%></option><%
+                        }
+                        %>
+                    </select>
+                </td>
+                <td><label>CVC Number</label>
+                    <input type="text" name="cvc_3_digit_number" maxlength="3" placeholder="CVC" class="form-control" required>
+                </td>
+            </tr>
+            <tr><td><br/></td></tr>
+            <tr>
+                <td>
+                    <input type="submit" value = "Register" class="btn btn-primary btn-block">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+</body>
+</html>
+
+<script>
+    function passwordCheck() {
+        var password = document.getElementById('password').value;
+        var repassword = document.getElementById('retype_password').value;
+        if (password != repassword){
+            alert("Password not matching");
+            return false;
+        } else {
+            return true;
+        }
+    }
+    function check_password_match() {
+        var password = document.getElementById('password').value;
+        var repassword = document.getElementById('retype_password').value;
+        if (password === repassword) {
+            document.getElementById('message').style.color = 'green';
+            document.getElementById('message').innerHTML = 'Password matched';
+        } else {
+            document.getElementById('message').style.color = 'red';
+            document.getElementById('message').innerHTML = 'Password not matching';
+        }
+    }
+    document.getElementById("work").addEventListener('change', function(){
+        document.getElementById("work_phone").required = this.checked;
+        document.getElementById("cell_phone").required = !this.checked;
+        document.getElementById("home_phone").required = !this.checked;
+    })
+    document.getElementById("home").addEventListener('change', function(){
+        document.getElementById("work_phone").required = !this.checked;
+        document.getElementById("cell_phone").required = !this.checked;
+        document.getElementById("home_phone").required = this.checked;
+    })
+    document.getElementById("cell").addEventListener('change', function(){
+        document.getElementById("work_phone").required = !this.checked;
+        document.getElementById("cell_phone").required = this.checked;
+        document.getElementById("home_phone").required = !this.checked;
+    })
+</script>

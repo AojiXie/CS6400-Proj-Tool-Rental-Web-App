@@ -1,0 +1,35 @@
+<h1>Tool Inventory Report</h1>
+<p>The list of tools where their total profit and cost are shown for all time</p>
+
+<table>
+    <thead>
+    <tr>
+        <th>Tool ID</th>
+        <th>Current Status</th>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Rental Profit</th>
+        <th>Total Cost</th>
+        <th>Total Profit</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% for (var i = 0; i < tool.length; i++) { %>
+    <tr>
+        <td><%= tool[i].toolid%></td>
+        <td><%= tool[i].status%></td>
+        <td><%= tool[i].date%></td>
+        <td><a href="/tool/<%= tool[i].toolid%>/<%= tool[i].subType%>"
+               onclick="window.open('/tool/<%= tool[i].toolid%>/<%= tool[i].subType%>',
+                       'Tool Detail',
+                       'width=300,height=250');
+                       return false;">
+                <%= tool[i].shortDes%></a>
+        </td>
+        <td><%= tool[i].rental%></td>
+        <td><%= tool[i].cost%></td>
+        <td><%= tool[i].profit%></td>
+    </tr>
+    <%}%>
+    </tbody>
+</table>

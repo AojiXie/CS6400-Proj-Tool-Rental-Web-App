@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+</head>
+<body>
+<h1> Check Tool Availability </h1>
+
+<form action = "/tool" method = "POST" >
+
+    <div>
+        <b>Start Date</b><input type="date" name="start_date" id = "start_date" required >
+        <b>End Date</b><input type="date" name="end_date" id = "end_date" required >
+        <b> Custom Search </b><input type ='text' name = "custom_search" id ="custom_search">
+        <button id = "search" name = "search">Search</button>
+    </div>
+    <div class="row">
+        <label class="col-lg-1"><b>Type</b></label>
+        <div id = "radio" >
+            <b>All Tool</b><input type="radio" id = "all" value ="" name="tool_type" >
+            <b>Hand Tool</b><input type="radio" id ="hand_tool" value ="hand tool" name="tool_type">
+            <b>Garden Tool</b><input type="radio" id = "garden_tool" value="garden tool" name="tool_type">
+            <b>Ladder</b> <input type="radio" id = "ladder" value="ladder" name ="tool_type">
+            <b>Power Tool</b> <input type="radio" id = "power" value="power tool" name="tool_type">
+        </div>
+        <label><b>Sub-Type</b></label>
+        <select input id="sub_type" name="sub_type" ></select>
+        <label><b>Power Source</b></label>
+        <select input id="power_source" name="power_source" class="form-control" ></select>
+    </div>
+    <script type="text/javascript">
+        // dropdown menu method
+
+
+
+
+        $(document).ready(function() {
+            var list_all = [{name:"All",value:""}]
+
+            var listA = [{name: "Manual", value: "manual"}];
+            var list_hand_sub_type = [{name:"All",value:""},{name: "Screwdriver", value: "screwdriver"}, {
+                name: "Ratchet",
+                value: "ratchet"
+            },
+                {name: "Plier", value: "plier"}, {name: "Hammer", value: "hammer"}, {name: "Gun", value: "gun"}, {
+                    name: "Socket",
+                    value: "socket"
+                }, {name: "Wrench", value: "wrench"}];
+            var list_hand_sub_type1 = [{name: "Screwdriver", value: "screwdriver"}, {
+                name: "Ratchet",
+                value: "ratchet"
+            },
+                {name: "Plier", value: "plier"}, {name: "Hammer", value: "hammer"}, {name: "Gun", value: "gun"}, {
+                    name: "Socket",
+                    value: "socket"
+                }, {name: "Wrench", value: "wrench"}];
+            var list_garden_sub_type = [{name:"All",value:""},{name: "Striking", value: "striking"}, {
+                name: "Wheelbarrows",
+                value: "wheelbarrows"
+            },
+                {name: "Rakes", value: "rakes"}, {name: "Pruner", value: "pruner"}, {
+                    name: "Digger",
+                    value: "digger"
+                }];
+            var list_garden_sub_type1 = [{name: "Striking", value: "striking"}, {
+                name: "Wheelbarrows",
+                value: "wheelbarrows"
+            },
+                {name: "Rakes", value: "rakes"}, {name: "Pruner", value: "pruner"}, {
+                    name: "Digger",
+                    value: "digger"
+                }];
+            var list_ladder_sub_type = [{name:"All",value:""},{name: "Straight", value: "straight"}, {name: "Step", value: "step"}];
+            var list_ladder_sub_type1 = [{name: "Straight", value: "straight"}, {name: "Step", value: "step"}];
+
+            var list_power1 = [{name: "A/C", value: "A/C"}, {name: "D/C", value: "D/C"}, {name: "Gas", value: "gas"}]
+            var list_power = list_all.concat(list_power1)
+            var list_power_tool_sub_type = [{name:"All",value:""},{name: "Drill", value: "drill"}, {
+                name: "Saw",
+                value: "saw"
+            }, {name: "Sander", value: "sander"}, {name: "Air-Compressor", value: "air-compressor"}, {
+                name: "Mixer", value: "mixer"
+            }, {name: "Generator", value: "generator"}];
+
+            var list_ac_tool = [{name:"All",value:""},{name: "Drill", value: "drill"}, {name: "Saw", value: "saw"}, {
+                name: "Sander",
+                value: "sander"
+            },
+                {name: "Air-Compressor", value: "air-compressor"}, {name: "Mixer", value: "mixer"}]
+            var list_dc_tool = [{name:"All",value:""},{name: "Drill", value: "drill"}, {name: "Saw", value: "saw"}, {
+                name: "Sander",
+                value: "sander"
+            }];
+            var list_gas_tool = [{name:"All",value:""},{name: "Air-Compressor", value: "air-compressor"}, {
+                name: "Mixer",
+                value: "mixer"
+            }, {name: "Generator", value: "generator"}];
+
+            var list_all_tool_sub_type = list_power_tool_sub_type.concat(list_garden_sub_type1.concat(list_hand_sub_type1.concat(list_ladder_sub_type1)));
+            var list_all_power_source = list_all.concat(listA.concat(list_power1));
+
+
+            $("input[name='tool_type']").on('change', function () {
+                if ($(this).is(':checked') && $(this).val() === 'hand tool') {
+                    $('#power_source').empty();
+                    $('#sub_type').empty();
+                    $.each(listA, function (index, value) {
+                        $('#power_source').append('<option value="' + value.value + '">' + value.name + '</option>');
+                    });
+                    $.each(list_hand_sub_type, function (index, value) {
+                        $('#sub_type').append('<option value="' + value.value + '">' + value.name + '</option>');
+                    }).change();
+                }
+                else if ($(this).is(':checked') && $(this).val() === 'garden tool') {
+                    $('#power_source').empty();
+                    $('#sub_type').empty();
+                    $.each(listA, function (index, value) {
+                        $('#power_source').append('<option value="' + value.value + '">' + value.name + '</option>');
+                    });
+                    $.each(list_garden_sub_type, function (index, value) {
+                        $('#sub_type').append('<option value="' + value.value + '">' + value.name + '</option>');
+                    }).change();
+                }
+                else if ($(this).is(':checked') && $(this).val() === 'ladder') {
+                    $('#power_source').empty();
+                    $('#sub_type').empty();
+                    $.each(listA, function (index, value) {
+                        $('#power_source').append('<option value="' + value.value + '">' + value.name + '</option>');
+                    });
+                    $.each(list_ladder_sub_type, function (index, value) {
+                        $('#sub_type').append('<option value="' + value.value + '">' + value.name + '</option>');
+                    }).change();
+                }
+                else if ($(this).is(':checked') && $(this).val() === 'power tool') {
+                    $('#power_source').empty();
+                    $('#sub_type').empty();
+                    $.each(list_power, function (index, value) {
+                        $('#power_source').append('<option value="' + value.value + '">' + value.name + '</option>');
+                    });
+
+                    $.each(list_power_tool_sub_type, function (index, value) {
+                        $('#sub_type').append('<option value="' + value.value + '">' + value.name + '</option>');
+                    }).change();
+                }
+                else ($(this).is(':checked') && $(this).val() === '')
+                {   var list_all_manual_tool = list_ladder_sub_type.concat(list_garden_sub_type.concat(list_hand_sub_type));
+                    $('#power_source').empty();
+                    $('#sub_type').empty();
+                    $.each(list_all_power_source, function (index, value) {
+                        $('#power_source').append('<option value="' + value.value + '">' + value.name + '</option>');
+                    });
+                    $.each(list_all_tool_sub_type, function (index, value) {
+                        $('#sub_type').append('<option value="' + value.value + '">' + value.name + '</option>');
+                    }).change();
+                }
+            });
+            if (document.getElementById("all").value ==="" ) {
+                $("#power_source").change(function () {
+                    if ($(this).val() === 'manual') {
+                        var list_all_manual_tool = list_all.concat(list_hand_sub_type1.concat(list_garden_sub_type1.concat(list_ladder_sub_type1)));
+                        $('#sub_type').empty();
+                        $.each(list_all_manual_tool, function (index, value) {
+                            $('#sub_type').append('<option value="' + value.value + '">' + value.name + '</option>');
+                        }).change();
+
+                    } else if ($(this).val() === 'A/C') {
+                        $('#sub_type').empty();
+                        $.each(list_ac_tool, function (index, value) {
+                            $('#sub_type').append('<option value="' + value.value + '">' + value.name + '</option>');
+                        }).change();
+                    } else if ($(this).val() === 'D/C') {
+                        $('#sub_type').empty();
+                        $.each(list_dc_tool, function (index, value) {
+                            $('#sub_type').append('<option value="' + value.value + '">' + value.name + '</option>');
+                        }).change();
+                    } else if ($(this).val() === 'gas')
+                    {
+                        $('#sub_type').empty()
+                        $.each(list_gas_tool, function (index, value) {
+                            $('#sub_type').append('<option value="' + value.value + '">' + value.name + '</option>');
+                        }).change();
+
+                    }else if ($(this).val() === ""){
+                        $('#sub_type').empty()
+                        $.each(list_all_tool_sub_type, function (index, value) {
+                            $('#sub_type').append('<option value="' + value.value + '">' + value.name + '</option>');
+                        }).change();
+                    }
+
+                });
+            }
+
+            if (document.getElementById("power_tool").value ==="power tool" ){
+                $("#power_source").change(function () {
+                    if ($(this).val() === 'A/C') {
+                        $('#sub_type').empty();
+                        $.each(list_ac_tool, function (index, value) {
+                            $('#sub_type').append('<option value="' + value.value + '">' + value.name + '</option>');
+                        }).change();
+                    } else if ($(this).val() === 'D/C') {
+                        $('#sub_type').empty();
+                        $.each(list_dc_tool, function (index, value) {
+                            $('#sub_type').append('<option value="' + value.value + '">' + value.name + '</option>');
+                        }).change();
+                    } else ($(this).val() === 'gas')
+                    {
+                        $('#sub_type').empty()
+                        $.each(list_gas_tool, function (index, value) {
+                            $('#sub_type').append('<option value="' + value.value + '">' + value.name + '</option>');
+                        }).change();
+
+                    }
+                });
+            }
+
+
+        });
+
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#end_date").change(function () {
+                var startDate = document.getElementById("start_date").value;
+                var endDate = document.getElementById("end_date").value;
+                var today = new Date().value;
+
+                if (Date.parse(endDate) <= Date.parse(startDate) || startDate === "") {
+                    alert("End date should be greater than Start date");
+                    document.getElementById("end_date").value = "";
+                }
+            });
+            $("#start_date").change(function () {
+                var startDate = document.getElementById("start_date").value;
+
+                var today = new Date();
+                if (Date.parse(startDate) < today ) {
+                    alert(startDate)
+                   // alert("invalid start date");
+                    document.getElementById("start_date").value = "";
+                }
+
+            });
+        });
+    </script>
+</form>
+
+<div>
+    <h2>Available Tools</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Tool ID</th>
+            <th>Description</th>
+            <th>Rental Price</th>
+            <th>Deposit Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% for (var i = 0; i < results.length; i++) {%>
+        <tr>
+            <td><%=results[i].ToolID%></td>
+            <td><a href="/tool/<%= results[i].ToolID%>/<%= results[i].sub_type%>" onclick="window.open('/tool/<%= results[i].ToolID%>/<%= results[i].sub_type%>',
+                        'Tool Detail',
+                        'width=300,height=250');
+                        return false;">
+                    <%= results[i].shortDes%></a>
+            </td>
+            <td><%=results[i].rental_price%></td>
+            <td><%=results[i].deposit_price%></td>
+        </tr>
+        <%}%>
+        </tbody>
+
+    </table>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+</head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+
+<body>
+
+<h1>Pickup Reservation</h1>
+<h2>Rental Contract</h2>
+
+<li>Pickup Clerk:<%= results[0].pick_up_clerk_name %> </li>
+<li>Customer Name:<%= results[0].customer_name %> </li>
+<li>Credit Card:<%= results[0].card_number %> </li>
+<li>Start Date:<%= results[0].start_date %> </li>
+<li>End Date:<%= results[0].end_date %> </li>
+
+
+<table id="available_tool" class="display" cellspacing="0" width="100%"  >
+    <thead>
+    <th>Tool ID</th>
+    <th>Tool Name</th>
+    <th>Deposit Price</th>
+    <th>Rental Price</th>
+
+    </thead>
+    <tbody>
+    <%  var total_rental =0;
+        var total_deposit = 0;
+    results.forEach(function (results) {
+        total_rental += results.rental_price;
+        total_deposit += results.deposit_price;
+
+    %>
+
+
+    <tr>
+        <td> <%=results.ToolID %></td>
+        <td><a href="/tool/<%= results.ToolID%>/<%= results.sub_type%>" onclick="window.open('/tool/<%= results.ToolID%>/<%= results.sub_type%>',
+                    'Tool Detail',
+                    'width=300,height=250');
+                    return false;">
+                <%= results.shortDes%></a>
+        </td>
+        <td>  <%=results.deposit_price%> </td>
+        <td> <%=results.rental_price%> </td>
+
+    </tr>
+    </tbody>
+
+    <tfoot>
+    <tr>
+    <td>Total </td>
+    <td>      </td>
+    <td> <%= total_deposit %> </td>
+    <td> <%= total_rental%>  </td>
+    </tr>
+
+    </tfoot>
+    <% }); %>
+
+</table>
+
+
+<h2>Signatures </h2>
+
+<div>
+    <p1>____________________________________  </p1>
+
+    <p5>Pickup Clerk-<%= results[0].pick_up_clerk_name%> </p5>
+    <p1>____________________________________  </p1>
+    <p5>Date </p5>
+</div>
+
+<div>
+    <p1>_____________________________________</p1>
+    <p5>Customer-<%= results[0].customer_name%> </p5>
+    <p1>____________________________________  </p1>
+    <p5>Date </p5>
+
+</div>
+
+
+
+<button id = 'print'  onClick="window.print()" >Print Contract </button>
+
+</body>
+</html>

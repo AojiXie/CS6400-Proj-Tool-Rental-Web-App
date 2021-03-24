@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+
+<body>
+
+
+
+
+
+<h1>Pickup Reservation</h1>
+
+<table id = "reservation_list" cellspacing="0" width="100%">
+    <thead>
+    <tr>
+        <th>Reservation ID</th>
+        <th>Customer</th>
+        <th>Customer Name</th>
+        <th>CustomerID</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Total Deposit</th>
+        <th>Total Rental Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% results.forEach(function (results) {  %>
+    <tr>
+        <td><%=results.reservationID%></td>
+        <td><%= results.username%></td>
+        <td><%= results.customer_name%></td>
+
+        <td><%=results.CustomerID%></td>
+        <td><%=results.start_date%></td>
+        <td><%=results.end_date%></td>
+        <td><%=results.total_deposit%></td>
+        <td><%=results.total_rental%></td>
+
+    </tr>
+    <%})%>
+    </tbody>
+
+</table>
+<form id = "pick_up_reservation" >
+<input type = 'number' id ="reservation_id" name = "reservation_id" placeholder="Enter ReservationID" required>
+<button id = "pickup" name = "pickup">Pick Up</button>
+</form>
+
+<script>
+    $('#pickup').on('click',function () {
+        var id = document.getElementById("reservation_id").value.toString();
+        var ttl = tableToObj(document.getElementById('reservation_list'));
+        var l = ttl.indexOf(id)
+        if(id.length === 0){
+            alert("please enter the reservation id")
+        }else if (id.length !==  0 && l === -1){
+            alert("reservation id not exist")
+        }else{
+            var re = tableToObj_1(document.getElementById('reservation_list'));
+            var table = JSON.stringify(re);
+            localStorage.setItem('_table', table);
+            window.open('/pickupConfirmation');
+
+        }
+
+    })
+
+
+
+    var tableToObj = function (table) {
+        var tableArr = [];
+        for ( var i = 1; i < table.rows.length; i++ ) {
+            tableArr.push(
+                table.rows[i].cells[0].innerHTML.toString()
+
+            );
+        }
+        return tableArr;
+    }
+
+
+    var tableToObj_1 = function (table) {
+        var id = document.getElementById("reservation_id").value;
+        var reser = [];
+        for ( var i = 1; i < table.rows.length; i++ ) {
+            if (table.rows[i].cells[0].innerHTML === id) {
+                reser.push({
+                    reservationID: table.rows[i].cells[0].innerHTML,
+                    customer_name: table.rows[i].cells[2].innerHTML,
+                    total_deposit: table.rows[i].cells[6].innerHTML,
+                    total_rental: table.rows[i].cells[7].innerHTML
+                });
+            }
+        }
+        return reser;
+    }
+
+
+</script>
+</body>
+</html>
