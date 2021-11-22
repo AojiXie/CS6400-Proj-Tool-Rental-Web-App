@@ -1,5 +1,4 @@
 # CS6400-Proj-Tool-Rental-Web-App
-Course project for CS6400
 
 Phase 1: EER diagram
 
